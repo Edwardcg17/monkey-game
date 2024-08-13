@@ -11,8 +11,12 @@
 
     <body>
         <h1>Monkey Game</h1>
+        <div class="scores-container">
+            <h2 id="curr-round"> Current Score: </h2>
+            <h2 id="high-score"> High Score: </h2>
+        </div>
         <div class="start-container active">
-            STARTING GAME STUFF
+            <button id="start_game_btn"> Start Game </button>
         </div>
         <div class="main-container">
             <button class="standard-button" id="button1">Monke</button>
@@ -63,6 +67,11 @@
             <button class="standard-button" id="button46">Monke</button>
             <button class="standard-button" id="button47">Monke</button>
             <button class="standard-button" id="button48">Monke</button>
+        </div>
+
+        <div class="end-container">
+            YOU LOSE
+            <button id="restart-btn"> Play Again </button>
         </div>
     </body>
 </html>

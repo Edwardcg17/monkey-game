@@ -1,52 +1,104 @@
-
-
-function gameplay_loop() {
-
-    var havent_failed = true;
-    while (havent_failed) {
-        buttons_list = play_pattern();
-
-        input_pattern();
-    }
+var curr_score = 3;
+var high_score = localStorage.getItem("high_score");
+if (high_score == null) {
+    high_score = 0;
 }
+document.getElementById("high-score").textContent = "High Score: " + high_score + " digits";
+
+//Initialize the website
+start_game();
 
 function start_game() {
-    var start_game = false;
+    curr_score = 3; //Need to reset it to 0 here for when I restart the game, a little redundant
 
-    while (!start_game) {
-
-    }
-}
+    const start_btn = document.getElementById("start_game_btn");
+    start_btn.addEventListener("click", () => {
+        document.querySelector(".start-container").classList.remove("active");
+        document.querySelector(".main-container").classList.add("active");
+        play_pattern();
+    }, {once: true} );
+};
 
 function play_pattern() {
-    var num_buttons = 10
     var pick_button;
-    var buttons_list = []; //bruh why is there no built in list object
-    for (var i = 1; i < num_buttons + 1; i++) {
-        pick_button = Math.round(Math.random() * 100);
-        while (pick_button > 48) {
-            pick_button = Math.round(pick_button / 2);
+    var buttons_list = [];
+    curr_score += 1;
+    document.getElementById("curr-round").textContent = "Current Score: " + curr_score + " digits";
+
+    //Generate the random amount of buttons
+    for (var i = 1; i < curr_score + 1; i++) {
+        pick_button = Math.floor(Math.random() * 48) + 1;
+        while (buttons_list.includes(pick_button)) {
+            pick_button = Math.floor(Math.random() * 48) + 1;
         };
-        console.log(pick_button)
-        buttons_list[i - 1] = pick_button;
+        buttons_list.push(pick_button);
+
+        //Visually activate the buttons
         const button = document.getElementById("button" + pick_button);
         button.classList.add("active");
-        //TODO: Need to play these one at a time, pause between each one
-    }
-    return buttons_list;
-}
+        button.textContent = i;
+    };
+
+    input_pattern(buttons_list);
+};
 
 function input_pattern(buttons_list) {
-    //TODO: Check which button is pressed
-    //Either have an event listener for clicks in general, and check which button
-    //Or event listener for every button
-    //For both have to remember to turn the event listeners off after
+    var started_inputting = false;
 
-    //TODO: Check if buttons are pressed in order
-    //Have buttons in a stack, and pop when button is clicked?
-}
+    function handle_inputs(event) {
+        const clicked_btn = event.currentTarget
+        const next_btn_to_press = buttons_list.shift();
+        started_inputting = true;
 
-document.addEventListener("click", () => {
-    document.querySelector(".start-container").classList.remove("active");
-    document.querySelector(".main-container").classList.add("active");
-})
+        //Check whether you clicked the right button or not
+        if (parseInt(clicked_btn.id.replace(/\D/g, ''), 10) == next_btn_to_press) {
+            clicked_btn.removeEventListener("click", handle_inputs);
+            clicked_btn.classList.remove("active");
+
+            //After the first correct click, remove the numbers for all buttons
+            if (started_inputting) {
+                active_buttons.forEach((el) => {
+                    el.textContent = null;
+                });
+            };
+        } else {
+            //Clean up buttons that were active before
+            const active_buttons = document.querySelectorAll(".standard-button.active");
+            active_buttons.forEach((el) => {
+                el.classList.remove("active");
+                el.removeEventListener("click", handle_inputs);
+            });
+            end_screen();
+        };
+
+        //Check if you completed the round
+        if (buttons_list.length == 0) {
+            play_pattern();
+        }
+    };
+
+    const active_buttons = document.querySelectorAll(".standard-button.active");
+    active_buttons.forEach((el) => {
+        el.addEventListener("click", handle_inputs);
+    });
+};
+
+function end_screen() {
+    if (curr_score - 1 > parseInt(localStorage.getItem("high_score"), 10)) {
+        localStorage.setItem("high_score", curr_score - 1);
+        document.getElementById("high-score").textContent = "High Score: " + (curr_score - 1) + " digits";
+    }
+    //Go to end screen
+    document.querySelector(".main-container").classList.remove("active");
+    document.querySelector(".end-container").classList.add("active");
+
+    //Button to restart game
+    document.getElementById("restart-btn").addEventListener("click", () => {
+        document.querySelector(".end-container").classList.remove("active");
+        document.querySelector(".start-container").classList.add("active");
+        start_game();
+    }, {once: true} );
+};
+
+
+
