@@ -1,3 +1,8 @@
+@font-face {
+    font-family: "monkey";
+    src: url('HappyMonkey-Regular.ttf');
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -9,11 +14,18 @@ body {
     justify-content: space-evenly;
     align-items: center;
     background-color: black;
+    font-family: 'monkey';
 }
 
 h1 {
     color: white;
     margin: 0;
+    margin-top: 2%;
+}
+
+h1:hover {
+    cursor: pointer;
+    transform: scale(1.2);
 }
 
 .scores-container {
@@ -39,6 +51,21 @@ h2 {
     justify-content: center;
     align-items: center;
     border-radius: 5px;
+    margin-bottom: 2%;
+}
+
+#start_game_btn {
+    border: none;
+    aspect-ratio: 3;
+    width: 20%;
+    font-family: 'monkey';
+    font-size: 3rem;
+    background-color: transparent;
+}
+
+#start_game_btn:hover {
+    cursor: pointer;
+    font-size: 3.2rem;
 }
 
 .main-container {
@@ -57,6 +84,7 @@ h2 {
     justify-content: space-evenly;
     align-items: center;
     border-radius: 5px;    
+    margin-bottom: 2%;
 }
 
 .standard-button {
@@ -71,11 +99,15 @@ h2 {
 
 
 .standard-button.active {
-    background-color: blue;
+    background-color: rgba(0, 102, 255, 0.904);
     color: white;
     cursor: pointer;
     font-size: 1rem;
     font-weight: bold;
+}
+
+.standard-button.active:hover {
+    transform: scale(1.05);
 }
 
 .end-container {
@@ -94,5 +126,21 @@ h2 {
     justify-content: space-evenly;
     align-items: center;
     border-radius: 5px;    
+    margin-bottom: 2%;
+    font-size: 5rem;
+}
+
+#restart-btn {
+    border: none;
+    aspect-ratio: 3;
+    width: 20%;
+    font-family: 'monkey';
+    font-size: 3rem;
+    background-color: transparent;
+}
+
+#restart-btn:hover {
+    cursor: pointer;
+    transform: scale(1.1);
 }
 

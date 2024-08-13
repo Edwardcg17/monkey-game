@@ -5,14 +5,21 @@ if (high_score == null) {
 }
 document.getElementById("high-score").textContent = "High Score: " + high_score + " digits";
 
+//Random monkey sound easter egg
+document.getElementById("game-title").addEventListener("click", () => {
+    document.getElementById("monkey-sound").play();
+});
+
 //Initialize the website
 start_game();
 
 function start_game() {
     curr_score = 3; //Need to reset it to 0 here for when I restart the game, a little redundant
+    document.getElementById("curr-round").textContent = "Current Score: "; //Yea also setting this and highscore split in separate places which I don't like
 
     const start_btn = document.getElementById("start_game_btn");
     start_btn.addEventListener("click", () => {
+        document.getElementById("mouse-click-sound").play();
         document.querySelector(".start-container").classList.remove("active");
         document.querySelector(".main-container").classList.add("active");
         play_pattern();
@@ -49,6 +56,9 @@ function input_pattern(buttons_list) {
         const clicked_btn = event.currentTarget
         const next_btn_to_press = buttons_list.shift();
         started_inputting = true;
+
+        //Play click audio
+        document.getElementById("click-sound").play();
 
         //Check whether you clicked the right button or not
         if (parseInt(clicked_btn.id.replace(/\D/g, ''), 10) == next_btn_to_press) {
@@ -88,12 +98,14 @@ function end_screen() {
         localStorage.setItem("high_score", curr_score - 1);
         document.getElementById("high-score").textContent = "High Score: " + (curr_score - 1) + " digits";
     }
+
     //Go to end screen
     document.querySelector(".main-container").classList.remove("active");
     document.querySelector(".end-container").classList.add("active");
 
     //Button to restart game
     document.getElementById("restart-btn").addEventListener("click", () => {
+        document.getElementById("mouse-click-sound").play();
         document.querySelector(".end-container").classList.remove("active");
         document.querySelector(".start-container").classList.add("active");
         start_game();
