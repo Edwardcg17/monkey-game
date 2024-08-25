@@ -2,6 +2,7 @@ var curr_score = 3;
 var high_score = localStorage.getItem("high_score");
 if (high_score == null) {
     high_score = 0;
+    localStorage.setItem("high_score", high_score);
 }
 document.getElementById("high-score").textContent = "High Score: " + high_score + " digits";
 
