@@ -95,7 +95,7 @@ function input_pattern(buttons_list) {
 };
 
 function end_screen() {
-    if (curr_score - 1 > parseInt(localStorage.getItem("high_score"), 10)) {
+    if ((curr_score - 1 > parseInt(localStorage.getItem("high_score"), 10)) && (high_score != 0)) {
         localStorage.setItem("high_score", curr_score - 1);
         document.getElementById("high-score").textContent = "High Score: " + (curr_score - 1) + " digits";
     }
